@@ -1,6 +1,10 @@
 local M = {}
 
 function M.add_heading()
+  local comment_styles = require('heading.comment-styles')
+  local FiletypeStyles = comment_styles.FiletypeStyles
+  local buildComment = comment_styles.buildComment
+  local ft = vim.bo.filetype
 
   local s = vim.fn.getpos("'<")
   local e = vim.fn.getpos("'>")
@@ -28,19 +32,9 @@ function M.add_heading()
     return
   end
 
-  -- compute how many spaces to pad on the left
-  local spaces = (64 - string.len(trimmed)) / 2
-
-  -- build the output exactly as in the Rust example
-  local out_lines = {
-      "    /*//////////////////////////////////////////////////////////////",
-      "    " .. string.rep(" ", spaces) .. string.upper(trimmed),
-      "    //////////////////////////////////////////////////////////////*/"
-    }
-
   -- Insert the result immediately before the selection
   vim.api.nvim_buf_set_lines(
-    0, l1 - 1, l1 - 1, false, out_lines)
+    0, l1 - 1, l1 - 1, false, buildComment(FiletypeStyles[ft], trimmed))
 
 end
 
