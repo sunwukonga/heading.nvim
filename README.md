@@ -36,6 +36,9 @@ return Plugin
 
 ## Supported Comment Types
 
+> [!Note]
+> TODO: Alphabetise this list. And the associated data structure.
+
 ### CLANG
 > [!Note]
 > C, C++, C#, Java, JavaScript, TypeScript, PHP, Kotlin, Scala, Swift, Go, Rust, CSS, SQL, Objective-C, Dart, JSON5
@@ -50,13 +53,6 @@ return Plugin
 """''''''
 
 ''''''"""
-```
-
-### HASKELL
-```haskell
-{-------
-
--------}
 ```
 
 ### HTML
@@ -75,11 +71,70 @@ return Plugin
 ========]]
 ```
 
+### HASKELL
+```haskell
+{-------
+
+-------}
+```
+
 ### SHELL
 > [!Note]
-> Shell/Bash/Sh, PowerShell, Assembly (most variants), Fortran 90+, VB.NET, F#, Julia
+> sh, bash, zsh, fish, ps1, asm, fortran, vb, fsharp, julia
+> perl, ruby
 ```sh
 ##########
 #        #
 ##########
+```
+
+### LATEX
+> [!Note]
+> tex, latex, erlang
+```sh
+%%%%%%%%%%
+%        %
+%%%%%%%%%%
+```
+
+### PASCAL
+```pascal
+{*********
+
+*********}
+```
+
+### MATLAB
+```mat
+%{%%%%%%%%
+
+%%%%%%%%%}
+```
+
+### ROXYGEN2
+```roxygen2
+#'''''''''
+#'      #'
+#'''''''''
+```
+
+### VIM
+```vim
+""""""""""
+"        "
+""""""""""
+```
+
+### CLOJURE
+```clj
+(comment ...........
+
+...................)
+```
+
+### APL
+```apl
+⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+⍝        ⍝
+⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
 ```

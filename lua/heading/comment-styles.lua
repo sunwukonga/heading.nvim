@@ -7,13 +7,13 @@ local CommentStyle = {
   LUA      = 'lua',
   HASKELL  = 'haskell',
   PASCAL   = 'pascal',
-  PERL     = 'perl',
+  -- PERL     = 'perl',  -- Such a trashy mechanism, may as well use single line re: SHELL
   MATLAB   = 'matlab',
   ROXYGEN2 = 'roxgen2',
   SHELL    = 'shell',
   LATEX    = 'latex',
   VIM      = 'vim',
-  ERLANG   = 'erlang',
+  -- ERLANG   = 'erlang',  -- Same as LATEX
   CLOJURE  = 'clojure',
   APL      = 'apl',
 }
@@ -59,9 +59,10 @@ local FiletypeStyles = {
   modula2 = CommentStyle.PASCAL,
   ocaml = CommentStyle.PASCAL,
 
-  -- Hash block comments =begin =end
-  ruby = CommentStyle.PERL,
-  perl = CommentStyle.PERL,
+  -- These SHOULD be hash block comments =begin =end, but it doesn't make for
+  -- good bordering of the heading
+  ruby = CommentStyle.SHELL,
+  perl = CommentStyle.SHELL,
 
   -- MATLAB block comments %{ %}
   matlab = CommentStyle.MATLAB,
@@ -85,7 +86,7 @@ local FiletypeStyles = {
   tex = CommentStyle.LATEX,
   latex = CommentStyle.LATEX,
   vim = CommentStyle.VIM,
-  erlang = CommentStyle.ERLANG,
+  erlang = CommentStyle.LATEX,
   clojure = CommentStyle.CLOJURE,
   apl = CommentStyle.APL,
 }
@@ -126,10 +127,6 @@ local commentBuilder = {
     "    ---------------------------------------------------------------}",
     ""
   },
-  -- PASCAL = 'pascal',
-  -- PERL = 'perl',
-  -- MATLAB = 'matlab',
-  -- ROXYGEN2 = 'roxgen2',
   shell =
   {
     "    ################################################################",
@@ -137,11 +134,57 @@ local commentBuilder = {
     "    ################################################################",
     "#"
   },
-  -- LATEX = 'latex',
-  -- VIM = 'vim',
-  -- ERLANG = 'erlang',
-  -- CLOJURE = 'clojure',
-  -- APL = 'apl',
+  latex =
+  {
+    "    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%",
+    "    ",
+    "    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%",
+    "%"
+  },
+  pascal =
+  {
+    "    {***************************************************************",
+    "    ",
+    "    ***************************************************************}",
+    ""
+  },
+  matlab =
+  {
+    "    %{%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%",
+    "    ",
+    "    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%}",
+    ""
+  },
+  roxygen2 =
+  {
+    "    #'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''",
+    "    ",
+    "    #'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''",
+    "#'"
+  },
+  vim =
+  {
+    "    \"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"",
+    "    ",
+    "    \"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"\"",
+    "\""
+  },
+  -- clojure could use `;` single line comment style, but clojure has an
+  -- informal meaning associated with repeated use i.e. `;;`, `;;;`, `;;;;`
+  clojure =
+  {
+    "    (comment .......................................................",
+    "    ",
+    "    ...............................................................)",
+    "%"
+  },
+  apl =
+  {
+    "    ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝",
+    "    ",
+    "    ⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝",
+    "⍝"
+  },
 }
 
 local function shallow_copy(orig)
