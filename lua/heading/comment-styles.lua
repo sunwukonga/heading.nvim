@@ -1,97 +1,97 @@
 local M = {}
 
-local CommentStyle = {
+M.CommentStyle = {
+  APL      = 'apl',
   CLANG    = 'clang',
-  PYTHON   = 'python',
-  HTML     = 'html',
-  LUA      = 'lua',
+  CLOJURE  = 'clojure',
+  -- ERLANG   = 'erlang',  -- Same as LATEX
   HASKELL  = 'haskell',
+  HTML     = 'html',
+  LATEX    = 'latex',
+  LUA      = 'lua',
+  MATLAB   = 'matlab',
   PASCAL   = 'pascal',
   -- PERL     = 'perl',  -- Such a trashy mechanism, may as well use single line re: SHELL
-  MATLAB   = 'matlab',
+  PYTHON   = 'python',
   ROXYGEN2 = 'roxgen2',
   SHELL    = 'shell',
-  LATEX    = 'latex',
   VIM      = 'vim',
-  -- ERLANG   = 'erlang',  -- Same as LATEX
-  CLOJURE  = 'clojure',
-  APL      = 'apl',
 }
 
 local FiletypeStyles = {
   -- C-style block comments /* */
-  c = CommentStyle.CLANG,
-  cpp = CommentStyle.CLANG,
-  cs = CommentStyle.CLANG,
-  java = CommentStyle.CLANG,
-  javascript = CommentStyle.CLANG,
-  typescript = CommentStyle.CLANG,
-  php = CommentStyle.CLANG,
-  kotlin = CommentStyle.CLANG,
-  scala = CommentStyle.CLANG,
-  swift = CommentStyle.CLANG,
-  go = CommentStyle.CLANG,
-  rust = CommentStyle.CLANG,
-  css = CommentStyle.CLANG,
-  sql = CommentStyle.CLANG,
-  objc = CommentStyle.CLANG,
-  dart = CommentStyle.CLANG,
-  json5 = CommentStyle.CLANG,
+  c = M.CommentStyle.CLANG,
+  cpp = M.CommentStyle.CLANG,
+  cs = M.CommentStyle.CLANG,
+  java = M.CommentStyle.CLANG,
+  javascript = M.CommentStyle.CLANG,
+  typescript = M.CommentStyle.CLANG,
+  php = M.CommentStyle.CLANG,
+  kotlin = M.CommentStyle.CLANG,
+  scala = M.CommentStyle.CLANG,
+  swift = M.CommentStyle.CLANG,
+  go = M.CommentStyle.CLANG,
+  rust = M.CommentStyle.CLANG,
+  css = M.CommentStyle.CLANG,
+  sql = M.CommentStyle.CLANG,
+  objc = M.CommentStyle.CLANG,
+  dart = M.CommentStyle.CLANG,
+  json5 = M.CommentStyle.CLANG,
 
   -- Python docstrings """ """
-  python = CommentStyle.PYTHON,
+  python = M.CommentStyle.PYTHON,
 
   -- HTML/XML comments <!-- -->
-  html = CommentStyle.HTML,
-  xml = CommentStyle.HTML,
-  sgml = CommentStyle.HTML,
-  markdown = CommentStyle.HTML,
+  html = M.CommentStyle.HTML,
+  xml = M.CommentStyle.HTML,
+  sgml = M.CommentStyle.HTML,
+  markdown = M.CommentStyle.HTML,
 
   -- Lua long comments --[[ ]]
-  lua = CommentStyle.LUA,
+  lua = M.CommentStyle.LUA,
 
   -- Haskell nested comments {- -}
-  haskell = CommentStyle.HASKELL,
+  haskell = M.CommentStyle.HASKELL,
 
   -- Pascal-style comments (* *)
-  pascal = CommentStyle.PASCAL,
-  delphi = CommentStyle.PASCAL,
-  modula2 = CommentStyle.PASCAL,
-  ocaml = CommentStyle.PASCAL,
+  pascal = M.CommentStyle.PASCAL,
+  delphi = M.CommentStyle.PASCAL,
+  modula2 = M.CommentStyle.PASCAL,
+  ocaml = M.CommentStyle.PASCAL,
 
   -- These SHOULD be hash block comments =begin =end, but it doesn't make for
   -- good bordering of the heading
-  ruby = CommentStyle.SHELL,
-  perl = CommentStyle.SHELL,
+  ruby = M.CommentStyle.SHELL,
+  perl = M.CommentStyle.SHELL,
 
   -- MATLAB block comments %{ %}
-  matlab = CommentStyle.MATLAB,
+  matlab = M.CommentStyle.MATLAB,
 
   -- R roxygen2 comments
-  r = CommentStyle.ROXYGEN2,
+  r = M.CommentStyle.ROXYGEN2,
 
   -- Single-line comment languages
-  sh = CommentStyle.SHELL,
-  bash = CommentStyle.SHELL,
-  zsh = CommentStyle.SHELL,
-  fish = CommentStyle.SHELL,
-  ps1 = CommentStyle.SHELL,
-  asm = CommentStyle.SHELL,
-  fortran = CommentStyle.SHELL,
-  vb = CommentStyle.SHELL,
-  fsharp = CommentStyle.SHELL,
-  julia = CommentStyle.SHELL,
+  sh = M.CommentStyle.SHELL,
+  bash = M.CommentStyle.SHELL,
+  zsh = M.CommentStyle.SHELL,
+  fish = M.CommentStyle.SHELL,
+  ps1 = M.CommentStyle.SHELL,
+  asm = M.CommentStyle.SHELL,
+  fortran = M.CommentStyle.SHELL,
+  vb = M.CommentStyle.SHELL,
+  fsharp = M.CommentStyle.SHELL,
+  julia = M.CommentStyle.SHELL,
 
   -- Special cases
-  tex = CommentStyle.LATEX,
-  latex = CommentStyle.LATEX,
-  vim = CommentStyle.VIM,
-  erlang = CommentStyle.LATEX,
-  clojure = CommentStyle.CLOJURE,
-  apl = CommentStyle.APL,
+  tex = M.CommentStyle.LATEX,
+  latex = M.CommentStyle.LATEX,
+  vim = M.CommentStyle.VIM,
+  erlang = M.CommentStyle.LATEX,
+  clojure = M.CommentStyle.CLOJURE,
+  apl = M.CommentStyle.APL,
 }
 
-local commentBuilder = {
+local CommentBuilder = {
   clang =
   {
     "    /*//////////////////////////////////////////////////////////////",
@@ -195,7 +195,7 @@ local function shallow_copy(orig)
   return copy
 end
 
-local function insertComment(base, comment, spaces)
+local function insert_comment(base, comment, spaces)
   local commentPreamble = base[2]
   local fixerLength = string.len(base[4])
 
@@ -215,14 +215,23 @@ local function insertComment(base, comment, spaces)
   return base
 end
 
-function M.buildComment(selectStyle, comment)
-  -- CLANG is the default value
-  local style = selectStyle or CommentStyle.CLANG
-  -- compute how many spaces to pad on the left
-  local spaces = (64 - string.len(comment)) / 2
-  local commentBase = shallow_copy(commentBuilder[style])
+function M.build_comment_factory(default_style)
+  return function(selectStyle, comment)
+    local style = selectStyle or default_style
+    local comment_base = shallow_copy(CommentBuilder[style])
+    local comment_length = string.len(comment)
+    local comment_max_length = 64 - string.len(comment_base[4])
+    if comment_length > comment_max_length then
+      vim.notify(
+        string.format("Comment length (%d) exceeds maximum (%d) for style '%s'",
+                  comment_length, comment_max_length, style))
+      return
+    end
+    -- compute how many spaces to pad on the left
+    local spaces = (64 - comment_length) / 2
 
-  return insertComment(commentBase, comment, spaces)
+    return insert_comment(comment_base, comment, spaces)
+  end
 end
 
 M.FiletypeStyles = FiletypeStyles

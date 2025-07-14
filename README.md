@@ -7,6 +7,12 @@ Comment is inserted above selection without mutating selection.
 
 Comment type is selected by the buffer filetype.
 
+Default comment type (no filetype) is configurable with `opts.default_style = 'shell'`
+
+> [!Note]
+> Possible values of `default_style`:
+> apl, clang, clojure, haskell, html, latex, lua, matlab, pascal, python, roxgen2, shell, vim
+
 ## Example
 ```ts
     /*//////////////////////////////////////////////////////////////
@@ -31,13 +37,24 @@ Plugin.keys = {
   },
 }
 
+Plugins.opts = {
+    default_style = 'shell'
+}
+
 return Plugin
 ```
 
 ## Supported Comment Types
 
 > [!Note]
-> TODO: Alphabetise this list. And the associated data structure.
+> Default is to use CLANG style
+
+### APL
+```apl
+⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+⍝        ⍝
+⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
+```
 
 ### CLANG
 > [!Note]
@@ -48,11 +65,18 @@ return Plugin
 ******/
 ```
 
-### PYTHON
-```python
-"""''''''
+### CLOJURE
+```clj
+(comment ...........
 
-''''''"""
+...................)
+```
+
+### HASKELL
+```haskell
+{-------
+
+-------}
 ```
 
 ### HTML
@@ -64,6 +88,15 @@ return Plugin
 -------->
 ```
 
+### LATEX
+> [!Note]
+> tex, latex, erlang
+```sh
+%%%%%%%%%%
+%        %
+%%%%%%%%%%
+```
+
 ### LUA
 ```lua
 --[[======
@@ -71,11 +104,32 @@ return Plugin
 ========]]
 ```
 
-### HASKELL
-```haskell
-{-------
+### MATLAB
+```mat
+%{%%%%%%%%
 
--------}
+%%%%%%%%%}
+```
+
+### PASCAL
+```pascal
+{*********
+
+*********}
+```
+
+### PYTHON
+```python
+"""''''''
+
+''''''"""
+```
+
+### ROXYGEN2
+```roxygen2
+#'''''''''
+#'      #'
+#'''''''''
 ```
 
 ### SHELL
@@ -88,53 +142,9 @@ return Plugin
 ##########
 ```
 
-### LATEX
-> [!Note]
-> tex, latex, erlang
-```sh
-%%%%%%%%%%
-%        %
-%%%%%%%%%%
-```
-
-### PASCAL
-```pascal
-{*********
-
-*********}
-```
-
-### MATLAB
-```mat
-%{%%%%%%%%
-
-%%%%%%%%%}
-```
-
-### ROXYGEN2
-```roxygen2
-#'''''''''
-#'      #'
-#'''''''''
-```
-
 ### VIM
 ```vim
 """"""""""
 "        "
 """"""""""
-```
-
-### CLOJURE
-```clj
-(comment ...........
-
-...................)
-```
-
-### APL
-```apl
-⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
-⍝        ⍝
-⍝⍝⍝⍝⍝⍝⍝⍝⍝⍝
 ```

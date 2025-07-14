@@ -1,9 +1,24 @@
 local M = {}
 
+local defaults = {
+  default_style = "clang",
+}
+
+function M.setup(opts)
+
+  M.opts = vim.tbl_deep_extend("force", {}, defaults, opts or {})
+
+  -- Create the user command
+  vim.api.nvim_create_user_command("AddHeading", function()
+    require("heading").add_heading()
+  end, { range = true, desc = "Build a heading comment from selection and paste above" })
+end
+
 function M.add_heading()
   local comment_styles = require('heading.comment-styles')
   local FiletypeStyles = comment_styles.FiletypeStyles
-  local buildComment = comment_styles.buildComment
+  local build_comment_factory = comment_styles.build_comment_factory
+  local build_comment = build_comment_factory(M.opts.default_style or comment_styles.CommentStyle.CLANG)
   local ft = vim.bo.filetype
 
   local s = vim.fn.getpos("'<")
@@ -34,7 +49,7 @@ function M.add_heading()
 
   -- Insert the result immediately before the selection
   vim.api.nvim_buf_set_lines(
-    0, l1 - 1, l1 - 1, false, buildComment(FiletypeStyles[ft], trimmed))
+    0, l1 - 1, l1 - 1, false, build_comment(FiletypeStyles[ft], trimmed))
 
 end
 
