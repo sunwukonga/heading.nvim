@@ -47,9 +47,14 @@ function M.add_heading()
     return
   end
 
+  local formatted_lines = build_comment(FiletypeStyles[ft], trimmed)
+  if formatted_lines == nil then
+    return
+  end
+
   -- Insert the result immediately before the selection
   vim.api.nvim_buf_set_lines(
-    0, l1 - 1, l1 - 1, false, build_comment(FiletypeStyles[ft], trimmed))
+    0, l1 - 1, l1 - 1, false, formatted_lines)
 
 end
 

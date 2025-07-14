@@ -220,12 +220,12 @@ function M.build_comment_factory(default_style)
     local style = selectStyle or default_style
     local comment_base = shallow_copy(CommentBuilder[style])
     local comment_length = string.len(comment)
-    local comment_max_length = 64 - string.len(comment_base[4])
+    local comment_max_length = 64 - 2 * string.len(comment_base[4])
     if comment_length > comment_max_length then
       vim.notify(
         string.format("Comment length (%d) exceeds maximum (%d) for style '%s'",
                   comment_length, comment_max_length, style))
-      return
+      return nil
     end
     -- compute how many spaces to pad on the left
     local spaces = (64 - comment_length) / 2
